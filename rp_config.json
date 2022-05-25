@@ -1,0 +1,12 @@
+{
+  "stream": {
+    "interface": "socketcan",
+    "channel": "can1",
+    "bitrate": "1mbps"
+  },
+  "sink": {
+    "interface": "socketcan",
+    "channel": "can0",
+    "bitrate": "1mbps"
+  }
+}
