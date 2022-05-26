@@ -1,10 +1,13 @@
+from typing import Union
+
+
 __multipliers = {
   'mbps': 1_000_000,
   'kbps': 1_000,
 }
 
 
-def parse(bitrate: int | str) -> int:
+def parse(bitrate: Union[int, str]) -> int:
   if isinstance(bitrate, int):
     return bitrate
 

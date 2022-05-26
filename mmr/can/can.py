@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional
+from typing import Optional, Union
 from can import Bus, Message
 
 from mmr.can.header import CanHeader
@@ -23,7 +23,7 @@ class MmrCan:
   def __init__(self,
     interface: Interface,
     channel: Channel,
-    bitrate: int | str,
+    bitrate: Union[int, str],
     **kwargs
   ):
     self._bus = Bus(
