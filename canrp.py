@@ -1,6 +1,7 @@
 import argparse
 from genericpath import exists
 import json
+import logging
 from can import Bus
 
 from mmr.can import MmrCan, CanHeader, MessageId
@@ -66,4 +67,8 @@ def parse_args() -> argparse.Namespace:
 
 
 if __name__ == '__main__':
+  logging.basicConfig(
+    level=logging.DEBUG,
+  )
+
   main()
