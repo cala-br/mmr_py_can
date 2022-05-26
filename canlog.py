@@ -1,7 +1,10 @@
 import argparse
 import logging
+import struct
+from typing import Optional
 
 from mmr.can import MmrCan, Channel, Interface
+from mmr.can.header import CanHeader
 from mmr.util.enums import desc_enum
 
 
@@ -10,16 +13,22 @@ def main():
   can = MmrCan(args.interface, args.channel, args.bitrate)
   with can:
     while True:
-      receive_one(can)
+      receive_one(can, args.format)
 
 
-def receive_one(can: MmrCan):
+def receive_one(can: MmrCan, format: Optional[str]):
   msg = can.recv()
   if not msg:
     return
 
   header = msg.header
-  payload = msg.payload.decode()
+  payload =\
+    msg.payload.decode() if format is None else struct.unpack(format, payload)
+
+  log_message(header, payload)
+
+
+def log_message(header: CanHeader, payload: str):
   logging.info(f'{header=} | {payload}')
 
 
@@ -42,6 +51,11 @@ def parse_args() -> argparse.Namespace:
   parser.add_argument('--bitrate',
     help='The bitrate, in bits per second',
     default='1mbps',
+  )
+
+  parser.add_argument('--format',
+    help='The format to pass to struct.unpack',
+    default=None,
   )
 
   return parser.parse_args()
