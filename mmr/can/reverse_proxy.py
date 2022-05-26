@@ -21,13 +21,14 @@ class ReverseProxy:
 
     canId = msg.arbitration_id
     payload = msg.data
+    logging.debug(f'Received {canId=} | {payload}')
     if canId not in self._id_map:
-      logging.debug(f'Dropped {canId=} | {payload}')
+      logging.debug(f'Dropped {canId=}')
       return
 
     header = self._id_map[canId]
     self._sink.send(header, payload)
-    logging.debug(f'Redirected {canId=} | {payload}')
+    logging.debug(f'Redirected {canId=} as {header=}')
 
 
   def __enter__(self) -> 'ReverseProxy':
