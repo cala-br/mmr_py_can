@@ -23,7 +23,7 @@ def receive_one(can: MmrCan, format: Optional[str]):
 
   header = msg.header
   payload =\
-    msg.payload.decode() if format is None else struct.unpack(format, payload)
+    msg.payload if format is None else struct.unpack(format, payload)
 
   log_message(header, payload)
 
